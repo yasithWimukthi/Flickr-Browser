@@ -5,12 +5,15 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "Main Activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        GetRawData getRawData = new GetRawData(this);
+        getRawData.execute("https://www.flickr.com/services/feeds/photos_public.gne?tags=android&tagmode=any&format=json&nojsoncallback=1");
     }
 
     @Override
@@ -41,5 +46,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onDownloadComplete(String data, DownloadStatus status) {
+        if (status == DownloadStatus.OK){
+            Log.d(TAG, "onDownloadComplete: data is "+ data);
+        }
+        else{
+            Log.d(TAG, "onDownloadComplete: Failed with status "+status);
+        }
     }
 }

@@ -17,8 +17,10 @@ public class GetRawData extends AsyncTask<String,Void,String> {
     private static final String TAG = "GetRawData";
     private static final String LOG_TAG = "GetRawData";
     private DownloadStatus mDownloadStatus;
+    private final MainActivity mCallback;
 
-    public GetRawData() {
+    public GetRawData(MainActivity callback) {
+        mCallback = callback;
         this.mDownloadStatus = DownloadStatus.IDLE;
     }
 
@@ -46,7 +48,7 @@ public class GetRawData extends AsyncTask<String,Void,String> {
 
             String line;
             while(null != (line = reader.readLine())){
-                result.append(line).append("/n");
+                result.append(line).append("\n");
             }
 
             mDownloadStatus = DownloadStatus.OK;
@@ -76,5 +78,8 @@ public class GetRawData extends AsyncTask<String,Void,String> {
     @Override
     protected void onPostExecute(String s) {
         //super.onPostExecute(s);
+        if (mCallback != null) {
+            mCallback.onDownloadComplete(s,mDownloadStatus);
+        }
     }
 }
