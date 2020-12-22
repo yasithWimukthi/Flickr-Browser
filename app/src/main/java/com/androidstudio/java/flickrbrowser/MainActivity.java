@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnDownloadComplete {
 
     private static final String TAG = "Main Activity";
 
@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
     public void onDownloadComplete(String data, DownloadStatus status) {
         if (status == DownloadStatus.OK){
             Log.d(TAG, "onDownloadComplete: data is "+ data);

@@ -17,9 +17,9 @@ public class GetRawData extends AsyncTask<String,Void,String> {
     private static final String TAG = "GetRawData";
     private static final String LOG_TAG = "GetRawData";
     private DownloadStatus mDownloadStatus;
-    private final MainActivity mCallback;
+    private final OnDownloadComplete mCallback;
 
-    public GetRawData(MainActivity callback) {
+    public GetRawData(OnDownloadComplete callback) {
         mCallback = callback;
         this.mDownloadStatus = DownloadStatus.IDLE;
     }
