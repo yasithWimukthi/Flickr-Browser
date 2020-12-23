@@ -1,6 +1,7 @@
 package com.androidstudio.java.flickrbrowser;
 
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class GetFlickrJsonData implements OnDownloadComplete{
+public class GetFlickrJsonData extends AsyncTask<String, Void, List<Photo>> implements OnDownloadComplete{
 
     private static final String TAG = "GetFlickrJsonData";
 
@@ -35,6 +36,28 @@ public class GetFlickrJsonData implements OnDownloadComplete{
         GetRawData getRawData = new GetRawData(this);
         getRawData.execute(destinationUri);
         Log.d(TAG, "executeOnSameThread: end");
+    }
+
+    @Override
+    protected void onPostExecute(List<Photo> photos) {
+        //super.onPostExecute(photos);
+        Log.d(TAG, "onPostExecute: starts");
+        if(mCallback != null){
+            mCallback.onDataAvailable(mPhotoList,DownloadStatus.OK);
+        }
+        Log.d(TAG, "onPostExecute: ends");
+    }
+
+    @Override
+    protected List<Photo> doInBackground(String... params) {
+        Log.d(TAG, "doInBackground: starts");
+        String destinationUri = createUri(params[0],mLanguage,mMatchAll);
+
+        GetRawData getRawData = new GetRawData(this);
+        getRawData.execute(destinationUri);
+        Log.d(TAG, "doInBackground: ends");
+
+        return mPhotoList;
     }
 
     private String createUri(String searchCriteria, String language, boolean matchAll) {

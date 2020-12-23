@@ -82,4 +82,10 @@ public class GetRawData extends AsyncTask<String,Void,String> {
             mCallback.onDownloadComplete(s,mDownloadStatus);
         }
     }
+
+    void reuInSameThread(String s) {
+        Log.d(TAG, "reuInSameThread: starts");
+        onPostExecute(doInBackground(s));
+        Log.d(TAG, "reuInSameThread: ends");
+    }
 }
