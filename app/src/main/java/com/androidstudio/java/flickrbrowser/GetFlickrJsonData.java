@@ -61,7 +61,7 @@ public class GetFlickrJsonData implements OnDownloadComplete{
                     JSONObject photo = itemsArray.getJSONObject(i);
                     String title = photo.getString("title");
                     String author = photo.getString("author");
-                    String AuthorID = photo.getString("Author_id");
+                    String AuthorID = photo.getString("author_id");
                     String tags = photo.getString("tags");
 
                     JSONObject media = photo.optJSONObject("media");
